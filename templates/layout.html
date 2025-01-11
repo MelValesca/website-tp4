@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+
+    <header>
+        <div class="underlay">
+            <h1>Délices Douteux</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <!-- Le contenu de la page va se trouver ici -->
+            {% block content %}{% endblock %}
+
+        </div>
+
+    </main>
+
+    <footer>
+        <p class="footer">&copy; 2024 projet INF5190. Tout droits réservés.</p>
+        <p class="footer">Fait par Melissa Valesca Vallee</p>
+    </footer>
+    {% block script %}{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!-- templates/layout.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block content %}
+
+
+{% if mot_cle is not none %}
+<h3>il y a {{nb_resultat}} resultats pour '{{mot_cle}}'</h3>
+{% endif %}
+
+{% for violation in recherche %}
+<div class="violation">
+    <span>ID de poursuite: {{ violation['id_pursuit'] }}</span>
+    <span>ID de buisness: {{ violation['buisness_id'] }}</span>
+    <span>Nom de l'établissement: {{ violation['etablissement'] }}</span>
+    <span>Propriétaire: {{ violation['proprietaire'] }}</span>
+    <span>Date: {{ violation['date'] }}</span>
+    <span>Description: {{ violation['description'] }}</span>
+    <span>Adresse: {{ violation['adresse'] }}</span>
+    <span>Ville: {{ violation['ville'] }}</span>
+    <span>Date de jugement: {{ violation['date_jugement'] }}</span>
+    <span>Montant de la contravention: {{ violation['montant'] }}</span>
+    <span>Statut: {{ violation['statut'] }}</span>
+    <span>Date du statut: {{ violation['date_statut'] }}</span>
+    <span>Catégorie: {{ violation['categorie'] }}</span>
+</div>
+{% endfor %}
+<a href="/">Retour à l'accueil</a>
+
+
+
+{% endblock %}

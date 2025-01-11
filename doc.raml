@@ -1,0 +1,206 @@
+#%RAML 1.0
+title: Service REST de gestion des contrevenants
+version: v1
+mediaType: application/json
+types:
+  Contravention:
+    properties:
+      id_pursuit:
+        type: integer
+        required: true
+      buisness_id:
+        type: integer
+        required: true
+      date:
+        type: string
+        format: date
+        required: true
+      description:
+        type: string
+        maxLength: 500
+        required: true
+      adresse:
+        type: string
+        maxLength: 40
+        required: true
+      date_jugement:
+        type: string
+        format: date
+        required: true
+      etablissement:
+        type: string
+        maxLength: 40
+        required: true
+      montant:
+        type: integer
+        required: true
+      proprietaire:
+        type: string
+        maxLength: 40
+        required: true
+      ville:
+        type: string
+        maxLength: 30
+        required: true
+      statut:
+        type: string
+        maxLength: 20
+        required: true
+      date_statut:
+        type: string
+        format: date
+        required: true
+      categorie:
+        type: string
+        maxLength: 40
+        required: true
+  Contrevenant:
+    properties:
+      etablissement:
+        type: string
+        required: true
+      nb_contraventions:
+        type: integer
+        required: true
+  Plainte:
+    properties:
+      etablissement: string
+      adresse: string
+      ville: string
+      date_visite: string
+      prenom: string
+      nom: string
+      description_probleme: string
+
+
+/contrevenants:
+  get:
+    description: Retourne la liste des restaurants ayant reçu une contravention entre les dates spécifiées, 
+      et le nombre de contraventions reçu.
+    queryParameters:
+      du:
+        description: Date de début (format:"YYYY-MM-DD").
+        type: string
+        required: true
+      au:
+        description: Date de fin (format:"YYYY-MM-DD").
+        type: string
+        required: true
+    responses:
+      200:
+        description: Succès de la requête. La liste des contrevenants et leurs contraventions.
+        body:
+          application/json:
+            type: Contrevenant[]
+
+/contrevenants/json:
+  get:
+    description: Récupère la liste des établissements ayant reçu une ou plusieurs contraventions, 
+      par ordre descendant du nombre de contraventions au format JSON.
+    responses:
+      200:
+        description: Succès de la requête. La liste des établissements.
+        body:
+          application/json:
+            example: |
+              [
+                {
+                  "etablissement": "PIZZA PIZZA",
+                  "nb_contraventions": 10
+                },
+                {
+                  "etablissement": "Restaurant AMIR",
+                  "nb_contraventions": 5
+                }
+              ]
+
+/contrevenants/xml:
+  get:
+    description: Récupère la liste des établissements ayant reçu une ou plusieurs contraventions, 
+      par ordre descendant du nombre de contraventions au format XML.
+    responses:
+      200:
+        description: Succès de la requête. La liste des établissements sous forme de XML.
+        body:
+          application/xml:
+            example: |
+              <contrevenants>
+                <item>
+                  <etablissement>RESTAURANT BASHA</etablissement>
+                  <nb_contraventions>35</nb_contraventions>
+                </item>
+                <item>
+                  <etablissement>DOUBLE PIZZA</etablissement>
+                  <nb_contraventions>32</nb_contraventions>
+                </item>
+              </contrevenants>
+
+/contrevenants/csv:
+  get:
+    description: Récupère la liste des établissements ayant reçu une ou plusieurs contraventions, 
+      par ordre descendant du nombre de contraventions au format CSV.
+    responses:
+      200:
+        description: Succès de la requête. Le fichier CSV des contrevenants.
+        body:
+          example: |
+            etablissement,nb_contraventions
+            RESTAURANT BASHA,35
+            DOUBLE PIZZA,32
+
+/etablissement:
+  get:
+    description: Retourne la liste des restaurants ayant reçu une ou plusieurs contraventions.
+    queryParameters:
+      nom:
+        description: Nom de l'établissement.
+        type: string
+        required: true
+    responses:
+      200:
+        description: Succès de la requête. La liste des contraventions.
+        body:
+          application/json:
+            type: Contravention[]
+/ajouter-plainte:
+  post:
+    description: Permet d'ajouter une plainte
+    body:
+      application/json:
+        type: Plainte
+        example: |
+          {
+            "etablissement": "Nom de l'établissement",
+            "adresse": "Adresse de l'établissement",
+            "ville": "Ville de l'établissement",
+            "date_visite": "2024-03-30",
+            "prenom": "Prénom du client",
+            "nom": "Nom du client",
+            "description_probleme": "Description du problème observé"
+          }
+    responses:
+      '201':
+        description: Plainte ajoutée avec succès
+        body:
+          application/json:
+            example: |
+              {
+                "adresse": "123 rue test",
+                "date_visite": "2024-03-11",
+                "description_probleme": "test",
+                "etablissement": "PIZZA PIZZA",
+                "nom": "Monica",
+                "prenom": "Lolita",
+                "ville": "montreal"
+              }
+      '400':
+        description: Données de la plainte invalides
+        body:
+          application/json:
+            example: |
+              {
+                "error": "Error validating against schema",
+                "errors": [
+                  "'' should be non-empty"
+                ]
+              }

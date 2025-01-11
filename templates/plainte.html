@@ -1,0 +1,70 @@
+<!-- templates/layout.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+
+<h2 class="plainte">Formuler une plainte</h2>
+<div class="presentation">
+    <div class="recherche-par-nom">
+        <img src="{{ url_for('static', filename='img/angry.jpeg') }}" alt="pas-content" class="pas-content">
+        <p>Avez-vous vécu une expérience décevante dans un restaurant de Montréal ? Nous sommes là pour vous aider !
+            Votre satisfaction est notre priorité absolue et nous sommes déterminés à veiller à ce que votre voix soit
+            entendue.</p>
+        <p>
+            Votre expérience compte. En signalant vos préoccupations, vous contribuez à maintenir des normes élevées en
+            matière de sécurité alimentaire et de qualité des services dans notre communauté. Votre plainte sera
+            transmise à la ville de Montréal pour qu'elle puisse effectuer une inspection approfondie.</p>
+
+
+    </div>
+    <div class="recherche-date">
+        <div class="resultat">
+            <div class="erreur"></div>
+            <form id="ajouter-plainte">
+
+                <div class="flex">
+                    <label for="etablissement">Nom de l'établissement :</label>
+                    <input type="text" id="etablissement" name="etablissement" placeholder="max 255 caractères">
+                </div>
+                <div class="flex">
+                    <label for="adresse">Adresse :</label>
+                    <input type="text" id="adresse" name="adresse" placeholder="max 40 caractères">
+                </div>
+                <div class="flex">
+                    <label for="ville">Ville :</label>
+                    <input type="text" id="ville" name="ville" placeholder="max 20 caractères">
+                </div>
+                <div class="flex">
+                    <label for="date_visite">Date de la visite :</label>
+                    <input type="date" id="date_visite" name="date_visite" placeholder="max 25 caractères">
+                </div>
+                <div class="flex">
+                    <label for="prenom">Prénom du client:</label>
+                    <input type="text" id="prenom" name="prenom" placeholder="max 25 caractères">
+                </div>
+                <div class="flex">
+                    <label for="nom">Nom du client:</label>
+                    <input type="text" id="nom" name="nom" placeholder="max 25 caractères">
+                </div>
+
+                <label for="description_probleme">Description du problème observé :</label>
+                <textarea id="description_probleme" name="description_probleme" rows="6"
+                    oninput="updateCountdown()"></textarea>
+                <div id="wordCount">500/500</div>
+
+
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+    </div>
+</div>
+<a href="/">Retour à L'accueil</a>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='plainte.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,76 @@
+<!-- templates/layout.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+
+<h2>Bienvenue</h2>
+
+<div class="onglet-dossier">
+    <a href="/plainte" class="lien-onglet">Formuler une plainte</a>
+</div>
+
+<div class="presentation">
+    <div class="recherche-par-nom">
+        <p>Bienvenue sur notre site dédié à la tranquillité d'esprit culinaire ! Vous cherchez à vous assurer que vos
+            restaurants préférés sont aussi irréprochables que leurs plats délicieux ? Ne cherchez pas plus loin.
+        </p>
+        <p>
+            Sur notre plateforme, vous pouvez facilement vérifier si les restaurants que vous fréquentez ont eu des
+            contraventions sanitaires. Fini les soucis et les suppositions sur la propreté de votre lieu de restauration
+            favori
+            ! Nous vous offrons un accès direct aux données sur les contraventions sanitaires signalées dans les
+            restaurants
+            de
+            votre région.
+        </p>
+        <p>
+            Parcourez notre site de manière simple et intuitive pour trouver les informations dont vous avez besoin. Que
+            vous
+            soyez un amateur de cuisine averti ou simplement soucieux de votre santé, notre site est conçu pour vous
+            aider à
+            faire des choix éclairés en matière de restauration.
+        </p>
+        Commencez tout de suite vos recherches !
+
+        <form action="/recherche" method="post">
+            <label for="recherche">Recherche rapide:</label>
+            <input type="text" id="recherche" name="recherche">
+            <button type="submit">Rechercher</button>
+        </form>
+
+        <form id="recherche-etablissement">
+            <label for="nom">Recherche par etablissement:</label>
+            <select id="nom" name="nom">
+                {% for etablissement in etablissements %}
+                <option value="{{ etablissement }}">{{ etablissement }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Rechercher</button>
+        </form>
+        <div id="resultat-etablissement"></div>
+    </div>
+
+    <div class="recherche-date">
+        <img src="{{ url_for('static', filename='img/loupe.png') }}" alt="loupe" class="loupe">
+        <h3>Recherche par date</h3>
+        <form id="recherche-par-date">
+            <label for="du">Du :</label>
+            <input type="date" id="du" name="du">
+            <label for="au">Au :</label>
+            <input type="date" id="au" name="au">
+            <button type="submit">Rechercher</button>
+        </form>
+        <div id="resultat"></div>
+    </div>
+
+
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}
